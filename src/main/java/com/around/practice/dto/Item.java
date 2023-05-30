@@ -8,8 +8,22 @@ public class Item {
     private @Id String id;
     private String name;
     private double price;
+    private String description;
 
     public Item() {
+    }
+
+    public Item(String id, String name, String description, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
+
+    public Item(String name, String description, double price) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
     }
 
     public Item(String name, double price) {
@@ -41,6 +55,14 @@ public class Item {
         this.price = price;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,6 +82,7 @@ public class Item {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
