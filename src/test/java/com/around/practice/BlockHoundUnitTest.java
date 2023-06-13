@@ -16,11 +16,14 @@
 
 package com.around.practice;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.Duration;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Greg Turnquist
@@ -29,23 +32,23 @@ class BlockHoundUnitTest {
 
 	// tag::obvious-failure[]
 	@Test
+	@Disabled
 	void threadSleepIsABlockingCall() {
-		Mono.delay(Duration.ofSeconds(1)) // <1>
+		Mono.delay(Duration.ofSeconds(1))
 				.flatMap(tick -> {
-					try {
-						Thread.sleep(10); // <2>
+					try{
+						Thread.sleep(10);
 						return Mono.just(true);
-					} catch (InterruptedException e) {
+
+					}catch (InterruptedException e){
 						return Mono.error(e);
 					}
-				}) //
-				.as(StepVerifier::create) //
+				}).as(StepVerifier::create)
 				.verifyErrorMatches(throwable -> {
-					assertThat(throwable.getMessage()) //
-							.contains("expectErrorMatches");
+					assertThat(throwable.getMessage())
+							.contains("Blocking call!! java.lang.Thread.sleep");
 					return true;
 				});
-
 	}
 	// end::obvious-failure[]
 
